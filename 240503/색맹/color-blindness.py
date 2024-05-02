@@ -1,3 +1,6 @@
+import sys
+sys.setrecursionlimit(10**7)
+
 N = int(input())
 graph = []
 for _ in range(N):
