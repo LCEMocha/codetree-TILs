@@ -1,33 +1,39 @@
-N = int(input())
-heights = []
-for _ in range(N):
-    i = int(input())
-    heights.append(i)
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    
+    n = int(data[0])
+    heights = list(map(int, data[1:n+1]))
+    
+    # 빙산 높이 중복 제거 및 정렬
+    unique_heights = sorted(set(heights), reverse=True)
+    height_to_index = {height: idx for idx, height in enumerate(unique_heights)}
+    
+    # 높이별 인덱스 위치 저장
+    index_arr = [[] for _ in range(len(unique_heights))]
+    for idx, height in enumerate(heights, 1):
+        index_arr[height_to_index[height]].append(idx)
+    
+    visited = [False] * (n + 2)
+    result = 0
+    answer = 0
+    
+    # 빙산 높이가 높은 순으로 순회
+    for i in range(len(unique_heights)):
+        for cur_idx in index_arr[i]:
+            if not visited[cur_idx - 1] and not visited[cur_idx + 1]:
+                result += 1
+            elif visited[cur_idx - 1] and visited[cur_idx + 1]:
+                result -= 1
+            
+            # 현재 인덱스 방문 처리
+            visited[cur_idx] = True
+        
+        # 최대 그룹 수 갱신
+        answer = max(answer, result)
+    
+    print(answer)
 
-def max_iceberg(N, heights):
-    # 빙산 높이를 담은 세트를 만들어 중복을 제거하고 정렬
-    unique_heights = sorted(set(heights))
-    
-    # 최대 덩어리 수를 초기화
-    max_groups = 0
-    
-    # 각 높이 -1 위치에서 물에 잠긴 빙산을 계산
-    for index in range(len(unique_heights)):
-        current_water_level = unique_heights[index] - 1
-        count_groups = 0
-        in_group = False
-        
-        # 전체 빙산 높이 리스트를 순회하면서 그룹 계산
-        for h in heights:
-            if h > current_water_level:
-                if not in_group:
-                    count_groups += 1
-                    in_group = True
-            else:
-                in_group = False
-        
-        # 최대 그룹 수 업데이트
-        max_groups = max(max_groups, count_groups)
-    
-    return max_groups
-print(max_iceberg(N, heights))
+if __name__ == "__main__":
+    main()
