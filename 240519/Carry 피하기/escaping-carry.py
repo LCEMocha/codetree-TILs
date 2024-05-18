@@ -26,10 +26,6 @@ def backtrack(count, depth, sum):
     # 이전까지 최대 개수(max_count)와 현재까지 구한 개수(count) 중 큰 값으로 갱신
     max_count = max(max_count, count)
 
-    # 모든 nums를 탐색했다면 종료
-    if depth == N:
-        return
-
     # nums 순회
     for i in range(depth, N):
         # carry가 발생하지 않았다면
