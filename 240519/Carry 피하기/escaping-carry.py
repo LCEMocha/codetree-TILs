@@ -31,7 +31,7 @@ def backtrack(current_sum, depth, count):
     for i in range(depth, len(nums)):
         if is_not_carry(current_sum, nums[i]):
             current_sum += nums[i]
-            backtrack(current_sum, depth+1, count+1)
+            backtrack(current_sum, i+1, count+1)
 
 backtrack(0, 0, 0)
 
