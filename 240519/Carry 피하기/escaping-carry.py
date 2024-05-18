@@ -27,12 +27,11 @@ def is_not_carry(sum, target):
 def backtrack(current_sum, depth, count):
     global nums
     global max_count
+    max_count = max(count, max_count)
     for i in range(depth, len(nums)):
         if is_not_carry(current_sum, nums[i]):
             current_sum += nums[i]
-            count += 1
-            max_count = max(count, max_count)
-            backtrack(current_sum, depth+1, count)
+            backtrack(current_sum, depth+1, count+1)
 
 backtrack(0, 0, 0)
 
