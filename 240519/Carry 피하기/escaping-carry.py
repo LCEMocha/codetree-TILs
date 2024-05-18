@@ -30,8 +30,7 @@ def backtrack(current_sum, depth, count):
     max_count = max(count, max_count)
     for i in range(depth, len(nums)):
         if is_not_carry(current_sum, nums[i]):
-            current_sum += nums[i]
-            backtrack(current_sum, i+1, count+1)
+            backtrack(current_sum+nums[i], i+1, count+1)
 
 backtrack(0, 0, 0)
 
