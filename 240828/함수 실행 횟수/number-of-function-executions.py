@@ -11,4 +11,4 @@ def count(N) :
         else:
             return count(N-1) + count(N-2)
 
-print(count(n))
+print(count(n)%1000000007)
