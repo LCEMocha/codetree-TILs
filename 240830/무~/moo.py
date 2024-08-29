@@ -14,10 +14,10 @@ def get_N(N, t):
 
     if N <= prev_len:
         return get_N(N, t-1)
-    if N > prev_len:
+    elif N > prev_len + middle_length :
         return get_N(N-middle_length-prev_len, t-1)
-    if N == prev_len:
-        if N == middle_length+1:
+    else:
+        if N == prev_len+1:
             return 'm'
         else:
             return 'o'
