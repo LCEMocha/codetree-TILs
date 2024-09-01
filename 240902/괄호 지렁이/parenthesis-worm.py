@@ -19,6 +19,9 @@ def is_visited(x, y, grid, N):
 def backtrack(grid, N, visited, curr_len, x, y):
     global max_len
     visited[x][y] = True
+    if grid[0][0] == ')':
+        max_len = 0
+        return
 
     if (0 <= x < N and 0 <= y < N) and (grid[x][y] == ')') and is_visited(x, y, grid, N):
         max_len = max(max_len, curr_len)
