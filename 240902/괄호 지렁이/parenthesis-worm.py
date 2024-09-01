@@ -12,6 +12,10 @@ def backtrack(grid, N, visited, curr_len, x, y, open_count, close_count):
     global max_len
     visited[x][y] = True
 
+    if grid[0][0] == ')':
+        max_len = 0
+        return
+
     # 괄호 수가 일치하지 않으면 더 이상 진행하지 않음
     if close_count > open_count:
         visited[x][y] = False
