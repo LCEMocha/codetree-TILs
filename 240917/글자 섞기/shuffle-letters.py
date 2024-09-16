@@ -17,6 +17,7 @@ last.sort()
 first_positions = [0] * N
 last_positions = [0] * N
 
+# bisect 안에서 리스트 컴프리헨션으로 계속 생성하기에는 시간복잡도가 너무 커져서 따로 뺌
 sorted_first_strings = [x[0] for x in first]
 sorted_last_strings = [x[0] for x in last]
 
