@@ -6,9 +6,10 @@ last = []
 for i in range(N):
     s = str(input())
     sorted_s = sorted(s)
-    first.append([sorted_s[0]])
-    p = sorted_s.pop()
-    last.append([p])
+    reverse_s = sorted_s[::-1]
+    first.append([''.join(sorted_s)])
+    last.append([''.join(reverse_s)])
+    
 
 sorted_first = sorted(first)
 sorted_last = sorted(last)
