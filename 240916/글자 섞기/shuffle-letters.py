@@ -35,18 +35,17 @@ for i in range(len(first)):
 for i in range(len(last)):
     append_flag = True
     for j in range(len(sorted_first)):
-        if last[i][0] <= sorted_first[0][0]:
+        if last[i][0] < sorted_first[0][0]:
             last[i].append(0)
             append_flag = False
             break
-        if (j+1<len(last)) and (sorted_first[j][0] <= last[i][0]) and (sorted_first[j+1][0] >= last[i][0]):
+        if (j+1<len(last)) and (sorted_first[j][0] <= last[i][0]) and (sorted_first[j+1][0] > last[i][0]):
             last[i].append(j)
             append_flag = False
             break
         append_flag = True
     if append_flag:
         last[i].append(len(last)-1)
-
 
 for i in range(len(first)):
     print(first[i][1]+1, last[i][1]+1)
