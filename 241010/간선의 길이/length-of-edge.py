@@ -46,11 +46,7 @@ for u, v, w in edges:
     for idx, (neighbor, weight) in enumerate(graph[u]):
         if neighbor == v and weight == w:
             graph[u][idx] = (v, 2 * w)  # 2배로 증가
-    
-    for idx, (neighbor, weight) in enumerate(graph[v]):
-        if neighbor == u and weight == w:
-            graph[v][idx] = (u, 2 * w)  # 2배로 증가
-    
+
     # 다익스트라로 최단 거리 다시 계산
     new_dist = dijkstra(N, graph, 1)
     new_shortcut = new_dist[N]  # 1번 정점에서 N번 정점까지의 새로운 최단 거리
@@ -62,10 +58,6 @@ for u, v, w in edges:
     for idx, (neighbor, weight) in enumerate(graph[u]):
         if neighbor == v and weight == 2 * w:
             graph[u][idx] = (v, w)  # 원래 값으로 복구
-    
-    for idx, (neighbor, weight) in enumerate(graph[v]):
-        if neighbor == u and weight == 2 * w:
-            graph[v][idx] = (u, w)  # 원래 값으로 복구
 
-
+# 3. 결과 출력
 print(doubled_max_shortcut - previous_shortcut)
