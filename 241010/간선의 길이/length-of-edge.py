@@ -42,18 +42,19 @@ doubled_max_shortcut = 0
 
 # 2. 각 간선을 2배로 늘리고 최단 거리 계산
 for u, v, w in edges:
-    # 간선 (u, v)의 가중치를 2배로 늘리기
-    for idx, (neighbor, weight) in enumerate(graph[u]):
+    for i, (neighbor, weight) in enumerate(graph[u]):
         if neighbor == v and weight == w:
-            graph[u][idx] = (v, 2 * w)  # 2배로 증가
-            
-    # 다익스트라로 최단 거리 다시 계산
+            graph[u][i] = (v, 2 * w)
+        
+        if neighbor == u and weight == w:
+            graph[v][i] = (u, 2*w)
+    
     new_dist = dijkstra(N, graph, 1)
-    new_shortcut = new_dist[N]  # 1번 정점에서 N번 정점까지의 새로운 최단 거리
+    new_shortcut = new_dist[N]
 
-    if new_shortcut != float('inf'):  # 도달할 수 있는 경로가 존재할 때
+    if new_shortcut != float('inf'):
         doubled_max_shortcut = max(doubled_max_shortcut, new_shortcut)
-
+    
     # 간선 (u, v)의 가중치를 원래대로 복구
     for idx, (neighbor, weight) in enumerate(graph[u]):
         if neighbor == v and weight == 2 * w:
