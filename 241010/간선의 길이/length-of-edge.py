@@ -1,68 +1,71 @@
 import heapq
-import sys
 
-INF = sys.maxsize
+N, M = map(int, input().split())
+graph = [[] for _ in range(N + 1)]  # 인덱스가 1부터 시작하므로
+edges = []
 
-def dijkstra(n, graph, start):
-    dist = [INF] * (n + 1)
-    dist[start] = 0
-    pq = []
-    heapq.heappush(pq, (0, start))
-    
-    while pq:
-        current_dist, u = heapq.heappop(pq)
+for _ in range(M):
+    u, v, w = map(int, input().split())  # u: 정점 1, v: 정점 2, w: 가중치
+    edges.append((u, v, w))
+    graph[u].append((v, w))  # u에서 v로 가는 간선 (가중치 w)
+    graph[v].append((u, w))  # 무방향 그래프니 v에서 u로 가는 간선도 추가
+
+def dijkstra(N, graph, start):
+    distances = [float('inf')] * (N + 1)
+    distances[start] = 0
+
+    pq = [(0, start)]
+
+    while pq :
+        current_dist, current_node = heapq.heappop(pq)
         
-        if current_dist > dist[u]:
+        # 이미 처리된 노드라면 스킵
+        if current_dist > distances[current_node]:
             continue
         
-        for v, weight in graph[u]:
-            if dist[v] > dist[u] + weight:
-                dist[v] = dist[u] + weight
-                heapq.heappush(pq, (dist[v], v))
+        # 인접 노드 확인
+        for neighbor, weight in graph[current_node]:
+            distance = current_dist + weight
+            
+            # 더 짧은 경로를 발견하면 업데이트
+            if distance < distances[neighbor]:
+                distances[neighbor] = distance
+                heapq.heappush(pq, (distance, neighbor))
     
-    return dist
+    return distances
 
-def find_max_increase(n, m, edges):
-    # 그래프 초기화
-    graph = [[] for _ in range(n + 1)]
-    
-    for u, v, w in edges:
-        graph[u].append((v, w))
-        graph[v].append((u, w))
-    
-    # 1. 원래의 최단 거리 계산
-    original_dist = dijkstra(n, graph, 1)
-    original_shortest = original_dist[n]
-    
-    # 2. 각 간선을 2배로 했을 때의 최단 거리 변화를 계산
-    max_increase = 0
-    for u, v, w in edges:
-        # 간선 (u, v)의 길이를 2배로 늘림
-        graph[u].remove((v, w))
-        graph[v].remove((u, w))
-        graph[u].append((v, 2 * w))
-        graph[v].append((u, 2 * w))
-        
-        # 최단 거리 계산
-        new_dist = dijkstra(n, graph, 1)
-        new_shortest = new_dist[n]
-        
-        # 변화량 계산
-        if new_shortest != INF:  # 만약 갈 수 있는 경로가 존재할 때
-            max_increase = max(max_increase, new_shortest - original_shortest)
-        
-        # 간선 복구
-        graph[u].remove((v, 2 * w))
-        graph[v].remove((u, 2 * w))
-        graph[u].append((v, w))
-        graph[v].append((u, w))
-    
-    return max_increase
+# 1. 원래 최단 거리 계산
+original_dist = dijkstra(N, graph, 1)
+previous_shortcut = original_dist[N]  # 1번 정점에서 N번 정점까지의 최단 거리
 
-# 입력 처리
-n, m = map(int, input().split())
-edges = [tuple(map(int, input().split())) for _ in range(m)]
+doubled_max_shortcut = 0
 
-# 결과 출력
-result = find_max_increase(n, m, edges)
-print(result)
+# 2. 각 간선을 2배로 늘리고 최단 거리 계산
+for u, v, w in edges:
+    # 간선 (u, v)의 가중치를 2배로 늘리기
+    for idx, (neighbor, weight) in enumerate(graph[u]):
+        if neighbor == v and weight == w:
+            graph[u][idx] = (v, 2 * w)  # 2배로 증가
+    
+    for idx, (neighbor, weight) in enumerate(graph[v]):
+        if neighbor == u and weight == w:
+            graph[v][idx] = (u, 2 * w)  # 2배로 증가
+    
+    # 다익스트라로 최단 거리 다시 계산
+    new_dist = dijkstra(N, graph, 1)
+    new_shortcut = new_dist[N]  # 1번 정점에서 N번 정점까지의 새로운 최단 거리
+
+    if new_shortcut != float('inf'):  # 도달할 수 있는 경로가 존재할 때
+        doubled_max_shortcut = max(doubled_max_shortcut, new_shortcut)
+
+    # 간선 (u, v)의 가중치를 원래대로 복구
+    for idx, (neighbor, weight) in enumerate(graph[u]):
+        if neighbor == v and weight == 2 * w:
+            graph[u][idx] = (v, w)  # 원래 값으로 복구
+    
+    for idx, (neighbor, weight) in enumerate(graph[v]):
+        if neighbor == u and weight == 2 * w:
+            graph[v][idx] = (u, w)  # 원래 값으로 복구
+
+
+print(doubled_max_shortcut - previous_shortcut)
