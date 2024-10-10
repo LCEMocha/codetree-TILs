@@ -45,9 +45,10 @@ for u, v, w in edges:
     for i, (neighbor, weight) in enumerate(graph[u]):
         if neighbor == v and weight == w:
             graph[u][i] = (v, 2 * w)
-        
+
+    for i, (neighbor, weight) in enumerate(graph[v]):    
         if neighbor == u and weight == w:
-            graph[v][i] = (u, 2*w)
+            graph[v][i] = (u, 2 * w)
     
     new_dist = dijkstra(N, graph, 1)
     new_shortcut = new_dist[N]
@@ -56,13 +57,13 @@ for u, v, w in edges:
         doubled_max_shortcut = max(doubled_max_shortcut, new_shortcut)
     
     # 간선 (u, v)의 가중치를 원래대로 복구
-    for idx, (neighbor, weight) in enumerate(graph[u]):
+    for i, (neighbor, weight) in enumerate(graph[u]):
         if neighbor == v and weight == 2 * w:
-            graph[u][idx] = (v, w)  # 원래 값으로 복구
+            graph[u][i] = (v, w)  # 원래 값으로 복구
     
-    for idx, (neighbor, weight) in enumerate(graph[v]):
+    for i, (neighbor, weight) in enumerate(graph[v]):
         if neighbor == u and weight == 2 * w:
-            graph[v][idx] = (u, w)  # 원래 값으로 복구
+            graph[v][i] = (u, w)  # 원래 값으로 복구
 
 # 3. 결과 출력
 print(doubled_max_shortcut - previous_shortcut)
