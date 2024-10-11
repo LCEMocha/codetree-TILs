@@ -57,5 +57,5 @@ def backtrack(current_Ay, current_Ax, current_By, current_Bx):
     graph[current_By][current_Bx] = False
 
 
-backtrack(1, 3, 4, 4)
+backtrack(0, 0, 4, 4)
 print(count)
