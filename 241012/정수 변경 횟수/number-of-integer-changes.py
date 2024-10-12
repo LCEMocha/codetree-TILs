@@ -15,17 +15,18 @@ def backtrack(cur_calculate, n):
 
     elif n < N:
         for i in num_list:
-            if cur_calculate + i < M:
-                dp[(cur_calculate, n)] = max_calculate               
+            dp[(cur_calculate, n)] = max_calculate
+            if cur_calculate + i <= M:               
                 backtrack(cur_calculate + i, n+1)
+                #dp[(cur_calculate, n)] = max_calculate
                 
-            if cur_calculate - i >= 0:
-                dp[(cur_calculate, n)] = max_calculate
-                backtrack(cur_calculate - i, n+1)   
+            if cur_calculate - i >= 0:             
+                backtrack(cur_calculate - i, n+1)
+                #dp[(cur_calculate, n)] = max_calculate 
 
     else:
         dp[(cur_calculate, n)] = max_calculate
         return -1
 
-backtrack(K, 0)
+backtrack(K, 1)
 print(max_calculate)
