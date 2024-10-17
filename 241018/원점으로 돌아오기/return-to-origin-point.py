@@ -28,7 +28,17 @@ def backtrack(d, start, path):
             count += 1
             return
         if value in path:
-            continue 
+            continue
+        if len(path) >= 2 and value[0] == path[-1][0] == path[-2][0]:
+            if (value[1] >= path[-1][1] >= path[-2][1]) or (value[1] <= path[-1][1] <= path[-2][1]):
+                continue
+            else:
+                pass
+        if len(path) >= 2 and value[1] == path[-1][1] == path[-2][1]:
+            if (value[0] >= path[-1][0] >= path[-2][0]) or (value[0] <= path[-1][0] <= path[-2][0]):
+                continue
+            else:
+                pass
         if len(path) == len(d) and [path][-1] != (0, 0):
             return
         path.append(value)
