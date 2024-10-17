@@ -24,23 +24,30 @@ count = 0
 def backtrack(d, start, path):
     global count
     for value in d[start]:
-        if len(path) == len(d) and (0, 0) in d[path[-1]] :
-            count += 1
-            return
-        if value in path:
-            continue
         if len(path) >= 2 and value[0] == path[-1][0] == path[-2][0]:
-            if (value[1] >= path[-1][1] >= path[-2][1]) or (value[1] <= path[-1][1] <= path[-2][1]):
+            if (value[1] > path[-1][1] > path[-2][1]) or (value[1] < path[-1][1] < path[-2][1]):
                 continue
             else:
                 pass
         if len(path) >= 2 and value[1] == path[-1][1] == path[-2][1]:
-            if (value[0] >= path[-1][0] >= path[-2][0]) or (value[0] <= path[-1][0] <= path[-2][0]):
+            if (value[0] > path[-1][0] > path[-2][0]) or (value[0] < path[-1][0] < path[-2][0]):
                 continue
             else:
                 pass
+
+        if len(path) == len(d) and (0, 0) in d[path[-1]]:
+            if (0 > path[-1][0] > path[-2][0]) or (0 < path[-1][0] < path[-2][0]):
+                continue
+            else: 
+                count += 1
+                return
+
         if len(path) == len(d) and [path][-1] != (0, 0):
             return
+
+        if value in path:
+            continue
+
         path.append(value)
         backtrack(d, value, path)
         path.pop()
