@@ -38,6 +38,8 @@ def backtrack(d, start, path):
         if len(path) == len(d) and (0, 0) in d[path[-1]]:
             if (0 > path[-1][0] > path[-2][0]) or (0 < path[-1][0] < path[-2][0]):
                 continue
+            if (0 > path[-1][1] > path[-2][1]) or (0 < path[-1][1] < path[-2][1]):
+                continue
             else: 
                 count += 1
                 return
