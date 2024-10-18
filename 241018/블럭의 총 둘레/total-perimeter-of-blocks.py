@@ -31,7 +31,7 @@ def calculate_perimeter(blocks):
 
     # 입력된 블록들의 위치를 표시
     for x, y in blocks:
-        grid[x][y] = True
+        grid[x-1][y-1] = True
 
     # 외부와 연결된 빈 공간을 탐색 (좌상단에서 시작)
     external_space = flood_fill(grid, 0, 0)
@@ -40,6 +40,7 @@ def calculate_perimeter(blocks):
 
     # 각 블록에 대해 외부로 노출된 면을 계산
     for x, y in blocks:
+        x, y = x - 1, y - 1
         for dx, dy in DIRECTIONS:
             nx, ny = x + dx, y + dy
             # 범위를 벗어나거나, 인접한 곳이 외부 공간인 경우 둘레로 간주
