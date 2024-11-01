@@ -1,13 +1,15 @@
 import sys
-input = sys.stdin.readline
 
-n = int(input().strip())
+n = int(input())
 
 intervals = []
-for _ in range(n):
-    intervals.append(list(map(int, input().split())))
+for line in sys.stdin:
+    a, b = map(int, line.split())
+    intervals.append([a, b])
 
-def min_intervals_to_cover(n, intervals):
+n = len(intervals)
+
+def min_intervals_to_cover(intervals):
     # 구간을 시작점 기준으로 오름차순, 끝점 기준으로 내림차순 정렬
     intervals.sort(key=lambda x: (x[0], -x[1]))
 
@@ -38,5 +40,4 @@ def min_intervals_to_cover(n, intervals):
     else:
         return 0
 
-
-print(min_intervals_to_cover(n, intervals))
+print(min_intervals_to_cover(intervals))
